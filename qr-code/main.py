@@ -15,6 +15,12 @@ class App(ctk.CTk):
     #Entry field
     EntryField(self)
 
+    #get image
+    raw_image = Image.open('Placeholder.png').resize((200,200))
+    tk_image = ImageTk.PhotoImage(raw_image)
+    self.qr_image = QrImage(self)
+    self.qr_image.update_image(tk_image)
+
     self.mainloop()
 
 class EntryField(ctk.CTkFrame):
@@ -37,6 +43,14 @@ class EntryField(ctk.CTkFrame):
 
     button = ctk.CTkButton(self.frame, text = 'save', fg_color = '#2E54E8', hover_color = '#4266f1')
     button.grid(row = 0, column = 2, sticky = 'nsew', padx = 10)
+
+class QrImage(tk.Canvas):
+  def __init__(self, parent):
+    super().__init__(master = parent, background = 'white', bd = 0, highlightthickness = 0, relief = 'ridge')
+    self.place(relx = 0.5, rely = 0.4, width = 200, height = 200, anchor = 'center')
+
+  def update_image(self, image_tk):
+    self.create_image(0,0, image = image_tk, anchor = 'nw')
 
 
 App()
