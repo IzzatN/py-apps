@@ -32,11 +32,11 @@ class EntryField(ctk.CTkFrame):
     self.frame.columnconfigure(3, weight = 1, uniform = 'b')
     self.frame.grid(row = 0, column = 0)
 
-    entry = ctk.CTkEntry(self.frame)
+    entry = ctk.CTkEntry(self.frame, fg_color = '#2E54E8', border_width = 0, text_color = 'white')
     entry.grid(row = 0, column = 1, sticky = 'nsew')
 
-    button = ctk.CTkButton(self.frame, text = 'save')
-    button.grid(row = 0, column = 2, sticky = 'nsew')
+    button = ctk.CTkButton(self.frame, text = 'save', fg_color = '#2E54E8', hover_color = '#4266f1')
+    button.grid(row = 0, column = 2, sticky = 'nsew', padx = 10)
 
 
 App()
