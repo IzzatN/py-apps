@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import filedialog
 import customtkinter as ctk
 from PIL import Image, ImageTk
 import qrcode
@@ -16,9 +17,14 @@ class App(ctk.CTk):
     #Entry field
     self.entry_string = ctk.StringVar()
     self.entry_string.trace('w', self.create_qr)
-    EntryField(self, self.entry_string)
+    EntryField(self, self.entry_string, self.save)
+
+    # call when the enter key is pressed
+    self.bind('<Return>', self.save)
 
     #get image
+    self.raw_image = None
+    self.tk_image = None
     self.qr_image = QrImage(self)
 
     self.mainloop()
@@ -31,9 +37,18 @@ class App(ctk.CTk):
       self.qr_image.update_image(self.tk_image)
     else:
       self.qr_image.clear()
+      self.raw_image = None
+      self.tk_image = None
+
+  def save(self, event = ''):
+    if self.raw_image:
+      file_path = filedialog.asksaveasfilename()
+
+      if file_path:
+        self.raw_image.save(file_path + '.jpg')
 
 class EntryField(ctk.CTkFrame):
-  def __init__(self, parent, entry_string):
+  def __init__(self, parent, entry_string, save_func):
     super().__init__(master = parent, corner_radius = 20, fg_color = '#021FB3')
     self.place(relx = 0.5, rely = 1, relwidth = 1, relheight = 0.4, anchor = 'center')
 
@@ -56,7 +71,13 @@ class EntryField(ctk.CTkFrame):
     )
     entry.grid(row = 0, column = 1, sticky = 'nsew')
 
-    button = ctk.CTkButton(self.frame, text = 'save', fg_color = '#2E54E8', hover_color = '#4266f1')
+    button = ctk.CTkButton(
+      self.frame,
+      command = save_func,
+      text = 'save',
+      fg_color = '#2E54E8',
+      hover_color = '#4266f1'
+    )
     button.grid(row = 0, column = 2, sticky = 'nsew', padx = 10)
 
 class QrImage(tk.Canvas):
