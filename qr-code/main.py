@@ -13,7 +13,9 @@ class App(ctk.CTk):
     self.geometry('400x400')
 
     #Entry field
-    EntryField(self)
+    self.entry_string = ctk.StringVar()
+    self.entry_string.trace('w', self.create_qr)
+    EntryField(self, self.entry_string)
 
     #get image
     raw_image = Image.open('Placeholder.png').resize((200,200))
@@ -23,8 +25,11 @@ class App(ctk.CTk):
 
     self.mainloop()
 
+  def create_qr(self, *args):
+    pass
+
 class EntryField(ctk.CTkFrame):
-  def __init__(self, parent):
+  def __init__(self, parent, entry_string):
     super().__init__(master = parent, corner_radius = 20, fg_color = '#021FB3')
     self.place(relx = 0.5, rely = 1, relwidth = 1, relheight = 0.4, anchor = 'center')
 
@@ -38,7 +43,13 @@ class EntryField(ctk.CTkFrame):
     self.frame.columnconfigure(3, weight = 1, uniform = 'b')
     self.frame.grid(row = 0, column = 0)
 
-    entry = ctk.CTkEntry(self.frame, fg_color = '#2E54E8', border_width = 0, text_color = 'white')
+    entry = ctk.CTkEntry(
+      self.frame,
+      textvariable = entry_string,
+      fg_color = '#2E54E8',
+      border_width = 0,
+      text_color = 'white'
+    )
     entry.grid(row = 0, column = 1, sticky = 'nsew')
 
     button = ctk.CTkButton(self.frame, text = 'save', fg_color = '#2E54E8', hover_color = '#4266f1')
