@@ -1,6 +1,7 @@
 import tkinter as tk
 import customtkinter as ctk
 from PIL import Image, ImageTk
+import qrcode
 
 class App(ctk.CTk):
   def __init__(self):
@@ -18,15 +19,18 @@ class App(ctk.CTk):
     EntryField(self, self.entry_string)
 
     #get image
-    raw_image = Image.open('Placeholder.png').resize((200,200))
-    tk_image = ImageTk.PhotoImage(raw_image)
     self.qr_image = QrImage(self)
-    self.qr_image.update_image(tk_image)
 
     self.mainloop()
 
   def create_qr(self, *args):
-    pass
+    current_text = self.entry_string.get()
+    if current_text:
+      self.raw_image = qrcode.make(current_text).resize((200,200))
+      self.tk_image = ImageTk.PhotoImage(self.raw_image)
+      self.qr_image.update_image(self.tk_image)
+    else:
+      self.qr_image.clear()
 
 class EntryField(ctk.CTkFrame):
   def __init__(self, parent, entry_string):
@@ -57,11 +61,20 @@ class EntryField(ctk.CTkFrame):
 
 class QrImage(tk.Canvas):
   def __init__(self, parent):
-    super().__init__(master = parent, background = 'white', bd = 0, highlightthickness = 0, relief = 'ridge')
+    super().__init__(
+      master = parent,
+      background = 'white',
+      bd = 0,
+      highlightthickness = 0,
+      relief = 'ridge'
+    )
     self.place(relx = 0.5, rely = 0.4, width = 200, height = 200, anchor = 'center')
 
   def update_image(self, image_tk):
     self.create_image(0,0, image = image_tk, anchor = 'nw')
+
+  def clear(self):
+    self.delete('all')
 
 
 App()
