@@ -21,6 +21,7 @@ class App(ctk.CTk):
     ResultText(self)
     WeightInput(self)
     HeightInput(self)
+    UnitSwitcher(self)
 
     self.mainloop()
 
@@ -120,6 +121,17 @@ class HeightInput(ctk.CTkFrame):
       font = ctk.CTkFont(family = FONT, size = INPUT_FONT_SIZE)
     )
     output_text.pack(side = 'left', padx = 20)
+
+
+class UnitSwitcher(ctk.CTkLabel):
+  def __init__(self, parent):
+    super().__init__(
+      master = parent,
+      text = 'metric',
+      text_color = DARK_GREEN,
+      font = ctk.CTkFont(family = FONT, size = SWITCH_FONT_SIZE, weight = 'bold')
+    )
+    self.place(relx = 0.98, rely = 0.01, anchor = 'ne')
 
 if __name__ == '__main__':
   App()
