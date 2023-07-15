@@ -25,6 +25,18 @@ class EntryField(ctk.CTkFrame):
     self.rowconfigure((0,1), weight = 1, uniform = 'a')
     self.columnconfigure(0, weight = 1, uniform = 'a')
 
+    self.frame = ctk.CTkFrame(self, fg_color = 'transparent')
+    self.frame.columnconfigure(0, weight = 1, uniform = 'b')
+    self.frame.columnconfigure(1, weight = 4, uniform = 'b')
+    self.frame.columnconfigure(2, weight = 2, uniform = 'b')
+    self.frame.columnconfigure(3, weight = 1, uniform = 'b')
+    self.frame.grid(row = 0, column = 0)
+
+    entry = ctk.CTkEntry(self.frame)
+    entry.grid(row = 0, column = 1, sticky = 'nsew')
+
+    button = ctk.CTkButton(self.frame, text = 'save')
+    button.grid(row = 0, column = 2, sticky = 'nsew')
 
 
 App()
